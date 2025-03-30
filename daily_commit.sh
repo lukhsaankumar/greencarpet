@@ -1,25 +1,36 @@
 #!/bin/bash
 
+# Array of creative commit messages showcasing Bash skills
+messages=(
+    "🔨 Crafted a pipeline smoother than bash | sed 's/errors//g'"
+    "🧹 Garbage-collected dangling pointers with rm -rf bugs/"
+    "🛠️ Patched logic holes using grep -v 'bugs'"
+    "🐚 Shell-scripted my way out of technical debt"
+    "🎯 Debugged this faster than a sed one-liner"
+    "🔥 Reduced complexity with xargs - efficiency++"
+    "🚀 Commit executed at $(date '+%H:%M') via Bash cronjob wizardry"
+    "📜 Updated markdown using echo 'magic' >> commit.md"
+    "⚡ Optimized commit workflow—now runs O(1) thanks to Bash arrays"
+)
+
+# Select a random commit message
+rand_msg=${messages[$RANDOM % ${#messages[@]}]}
+
+# File to update
 FILE="commit.md"
 
-# Check if file exists; create if not
-if [ ! -f "$FILE" ]; then
-  echo "Automated 0" > "$FILE"
-fi
+# Create commit.md if doesn't exist
+[ ! -f "$FILE" ] && echo "Automated 0" > "$FILE"
 
-# Extract current commit count from file
-CURRENT_COUNT=$(grep -oP '(?<=Automated )\d+' "$FILE")
+# Increment the commit number using Bash arithmetic expansion
+commit_num=$(($(grep -oP '(?<=Automated )\d+' "$FILE") + 1))
 
-# Increment commit count
-NEXT_COUNT=$((CURRENT_COUNT + 1))
+# Update commit.md
+echo "Automated $commit_num" > "$FILE"
 
-# Update file
-echo "Automated $NEXT_COUNT" > "$FILE"
+# Configure local git info
+git config --local user.email "lukhsaankumar@users.noreply.github.com"
+git config --local user.name "lukhsaankumar"
 
-# Git operations
-git config user.name "github-actions[bot]"
-git config user.email "github-actions[bot]@users.noreply.github.com"
-
-git add "$FILE"
-git commit -m "Daily commit #$NEXT_COUNT [Automated]"
-git push
+# Commit changes with creative message and timestamp
+git commit -am "${rand_msg} [Commit #${commit_num}]"
