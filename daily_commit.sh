@@ -19,8 +19,11 @@ rand_msg=${messages[$RANDOM % ${#messages[@]}]}
 # File to update
 FILE="commit.md"
 
-# Create commit.md if doesn't exist
-[ ! -f "$FILE" ] && echo "Automated 0" > "$FILE"
+# Check if FILE exists, if not, create it and explicitly add to git
+if [ ! -f "$FILE" ]; then
+    echo "Automated 0" > "$FILE"
+    git add "$FILE"
+fi
 
 # Increment the commit number using Bash arithmetic expansion
 commit_num=$(($(grep -oP '(?<=Automated )\d+' "$FILE") + 1))
