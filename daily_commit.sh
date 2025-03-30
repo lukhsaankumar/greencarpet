@@ -21,15 +21,16 @@ FILE="commit.md"
 
 # Check if FILE exists, if not, create it and explicitly add to git
 if [ ! -f "$FILE" ]; then
-    echo "Automated 0" > "$FILE"
+    echo "🚀 Automated 0 commits so far." > "$FILE"
     git add "$FILE"
 fi
 
 # Increment the commit number using Bash arithmetic expansion
-commit_num=$(($(grep -oP '(?<=Automated )\d+' "$FILE") + 1))
+commit_num=$(($(grep -oP '(?<=Automated )\d+(?= commits)' "$FILE") + 1))
 
 # Update commit.md
-echo "Automated $commit_num" > "$FILE"
+
+echo "🚀 Automated $commit_num commits so far." > "$FILE"
 
 # Configure local git info
 git config --local user.email "lukhsaankumar@users.noreply.github.com"
